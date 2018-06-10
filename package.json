@@ -1,0 +1,25 @@
+{
+  "name": "nedb-to-mongodb",
+  "version": "0.1.0",
+  "description": "Tool to transfer nedb database to mongoDB collection",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boguslavsky/nedb-to-mongodb.git"
+  },
+  "keywords": [
+    "nedb",
+    "mongodb"
+  ],
+  "author": "Ivan Bohuslavskyi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boguslavsky/nedb-to-mongodb/issues"
+  },
+  "homepage": "https://github.com/boguslavsky/nedb-to-mongodb#readme",
+  "dependencies": {
+    "mongodb": "^3.0.10",
+    "monk": "^6.0.6",
+    "yargs": "^11.0.0"
+  }
+}
