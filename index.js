@@ -1,6 +1,6 @@
 const argv = require('yargs').argv
-const fs = require('fs')
 const monk = require('monk')
+const nedb = require('nedb')
 
 const host = argv.host || 'localhost'
 const port = argv.port || '27017'
@@ -18,18 +18,24 @@ if (!dbName) {
 
 const db = monk(host + ':' + port + '/' + dbName)
 
-fs.readFile(dbPath, 'utf8', (err, data) => {
+const oldDb = new nedb({filename: dbPath})
+
+oldDb.loadDatabase(err => {
     if (err) {
         return console.log(err)
     }
 
-    let collection = JSON.parse(data)
+    oldDb.find().exec((err, records) => {
+        if (err) {
+            return console.log(err)
+        }
 
-    db.get(collectionName).insert(collection.map(record => {
-        delete record._id
-        return record
-    })).then(() => {
-        console.log('DB "' + dbPath + '" has been cloned into "' + collectionName + '" collection of "' + dbName + '" database.')
-        process.exit()
+        db.get(collectionName).insert(records.map(record => {
+            delete record._id
+            return record
+        })).then(() => {
+            console.log('DB "' + dbPath + '" has been cloned into "' + collectionName + '" collection of "' + dbName + '" database.')
+            process.exit()
+        })
     })
-});
+})
